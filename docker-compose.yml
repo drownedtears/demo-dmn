@@ -1,0 +1,39 @@
+services:
+  postgresql:
+    container_name: postgresql
+    image : postgres:15
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+      POSTGRES_DB: demo
+    ports:
+      - 5433:5432
+    networks:
+      backend:
+      test-network:
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  liquibase-migrations:
+    image: liquibase/liquibase:4.18
+    depends_on:
+      - postgresql
+    command:
+      - --hub-mode=off
+      - --changelog-file=master.xml
+      - --driver=org.postgresql.Driver
+      - --url=jdbc:postgresql://postgresql:5432/demo
+      - --username=root
+      - --password=root
+      - update
+    volumes:
+      - ./src/main/resources/migrations:/liquibase/changelog
+    networks:
+      backend:
+networks:
+  test-network:
+  backend:
+volumes:
+  postgres:

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions" name="definitions"
+             namespace="http://camunda.org/schema/1.0/dmn">
+    <decision id="companyDecision" name="Company decision">
+        <decisionTable>
+            <input id="inputInn" label="Capital">
+                <inputExpression id="inputInnExpression" typeRef="string">
+                    <text>inn</text>
+                </inputExpression>
+            </input>
+            <input id="inputRegion" label="Region">
+                <inputExpression id="inputRegionExpression" typeRef="integer">
+                    <text>region</text>
+                </inputExpression>
+            </input>
+            <input id="inputCapital" label="Capital">
+                <inputExpression id="inputCapitalExpression" typeRef="integer">
+                    <text>capital</text>
+                </inputExpression>
+            </input>
+            <input id="inputInnSuffix" label="Capital">
+                <inputExpression id="inputInnSuffixExpression" typeRef="string">
+                    <text>innSuffix</text>
+                </inputExpression>
+            </input>
+            <output id="companyName" typeRef="boolean"/>
+            <rule id="ruleNotValid">
+                <inputEntry id="inputEntryInnValid">
+                    <text><![CDATA[length(inn) != 12]]></text>
+                </inputEntry>
+                <inputEntry id="inputEntryRegionValid">
+                    <text><![CDATA[region != 24]]></text>
+                </inputEntry>
+                <inputEntry id="inputEntryCapitalValid">
+                    <text> <![CDATA[capital > 4999999]]></text>
+                </inputEntry>
+                <inputEntry id="inputEntryInnSuffixValid">
+                    <text><![CDATA[innSuffix != "9909"]]></text>
+                </inputEntry>
+                <outputEntry id="outputEntry">
+                    <text>true</text>
+                </outputEntry>
+            </rule>
+        </decisionTable>
+    </decision>
+</definitions>
